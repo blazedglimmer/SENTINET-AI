@@ -7,6 +7,7 @@ import { MetricsDisplay } from '@/components/playground/metrics-display';
 import { useModelConfig } from '@/hooks/use-model-config';
 import { useStream } from '@/hooks/use-stream';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { StopCircle } from 'lucide-react';
 
 export function Playground() {
@@ -41,7 +42,7 @@ export function Playground() {
       </div>
 
       <form onSubmit={handleSubmit} className="flex gap-2">
-        <input
+        <Input
           type="text"
           value={input}
           onChange={e => setInput(e.target.value)}
