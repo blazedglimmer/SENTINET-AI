@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Message } from '@/types/chat';
 import { ModelConfig } from '@/hooks/use-model-config';
 import { useMetrics } from '@/hooks/use-metrics';
@@ -11,7 +11,22 @@ export function useStream() {
   const [isLoading, setIsLoading] = useState(false);
   const abortController = useRef<AbortController | null>(null);
   const { metrics, updateMetrics, resetMetrics } = useMetrics();
-  const { saveMessages } = useConversationCache();
+  const {
+    saveMessages,
+    loadMessages,
+    clearHistory: clearCachedHistory,
+  } = useConversationCache();
+
+  // Load messages from IndexedDB when component mounts
+  useEffect(() => {
+    const loadInitialMessages = async () => {
+      const cachedMessages = await loadMessages();
+      if (cachedMessages) {
+        setMessages(cachedMessages);
+      }
+    };
+    loadInitialMessages();
+  }, [loadMessages]);
 
   const cancelGeneration = () => {
     if (abortController.current) {
@@ -19,6 +34,11 @@ export function useStream() {
       abortController.current = null;
       setIsLoading(false);
     }
+  };
+
+  const clearHistory = async () => {
+    await clearCachedHistory();
+    setMessages([]);
   };
 
   const streamMessage = async (content: string, config: ModelConfig) => {
@@ -90,6 +110,7 @@ export function useStream() {
     isLoading,
     streamMessage,
     cancelGeneration,
+    clearHistory,
     metrics,
   };
 }
