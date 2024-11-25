@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { openDB, IDBPDatabase } from 'idb';
 import { Message } from '@/types/chat';
 
@@ -12,6 +12,7 @@ interface ConversationCache {
   isLoading: boolean;
   error: Error | null;
   saveMessages: (messages: Message[]) => Promise<void>;
+  loadMessages: () => Promise<Message[]>;
   clearHistory: () => Promise<void>;
 }
 
@@ -32,13 +33,6 @@ export function useConversationCache(): ConversationCache {
           },
         });
         setDb(database);
-
-        // Load existing messages
-        const store = database
-          .transaction(STORE_NAME, 'readonly')
-          .objectStore(STORE_NAME);
-        const existingMessages = await store.getAll();
-        setMessages(existingMessages);
         setIsLoading(false);
       } catch (err) {
         setError(
@@ -57,6 +51,24 @@ export function useConversationCache(): ConversationCache {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const loadMessages = useCallback(async () => {
+    if (!db) return [];
+
+    try {
+      const store = db
+        .transaction(STORE_NAME, 'readonly')
+        .objectStore(STORE_NAME);
+      const messages = await store.getAll();
+      setMessages(messages);
+      return messages;
+    } catch (err) {
+      setError(
+        err instanceof Error ? err : new Error('Failed to load messages')
+      );
+      return [];
+    }
+  }, [db]);
 
   const saveMessages = async (newMessages: Message[]) => {
     if (!db) return;
@@ -96,5 +108,12 @@ export function useConversationCache(): ConversationCache {
     }
   };
 
-  return { messages, isLoading, error, saveMessages, clearHistory };
+  return {
+    messages,
+    isLoading,
+    error,
+    saveMessages,
+    loadMessages,
+    clearHistory,
+  };
 }
