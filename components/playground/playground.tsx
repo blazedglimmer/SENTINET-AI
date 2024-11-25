@@ -4,17 +4,25 @@ import { useState } from 'react';
 import { MessageWindow } from '@/components/messages/message-window';
 import { ModelControls } from '@/components/controls/model-controls';
 import { MetricsDisplay } from '@/components/playground/metrics-display';
+import { ConversationHistory } from '@/components/playground/conversation-history';
 import { useModelConfig } from '@/hooks/use-model-config';
 import { useStream } from '@/hooks/use-stream';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { StopCircle } from 'lucide-react';
+import { StopCircle, Trash2 } from 'lucide-react';
 
 export function Playground() {
   const [input, setInput] = useState('');
   const { modelConfig, updateConfig } = useModelConfig();
-  const { messages, isLoading, streamMessage, cancelGeneration, metrics } =
-    useStream();
+  const {
+    messages,
+    isLoading,
+    streamMessage,
+    cancelGeneration,
+    metrics,
+    clearHistory,
+  } = useStream();
+  const [showHistory, setShowHistory] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +41,25 @@ export function Playground() {
       />
 
       <div className="flex flex-col md:flex-row gap-4">
-        <div className="w-full md:w-3/4">
+        <div className="w-full md:w-3/4 space-y-4">
+          <div className="flex justify-between items-center">
+            <Button
+              variant="outline"
+              onClick={() => setShowHistory(!showHistory)}
+            >
+              {showHistory ? 'Hide History' : 'Show History'}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={clearHistory}
+              className="flex items-center gap-2"
+            >
+              <Trash2 className="w-4 h-4" />
+              Clear History
+            </Button>
+          </div>
+
+          {showHistory && <ConversationHistory messages={messages} />}
           <MessageWindow messages={messages} isLoading={isLoading} />
         </div>
         <div className="w-full md:w-1/4">

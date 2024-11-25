@@ -11,7 +11,7 @@ interface MessageWindowProps {
 
 export function MessageWindow({ messages, isLoading }: MessageWindowProps) {
   return (
-    <div className="h-[calc(100svh-14rem)] border border-gray-200 dark:border-gray-800 rounded-lg bg-background">
+    <div className="h-[calc(100svh-17.5rem)] border border-gray-200 dark:border-gray-800 rounded-lg bg-background">
       <Virtuoso
         data={messages}
         itemContent={(index, message) => (
