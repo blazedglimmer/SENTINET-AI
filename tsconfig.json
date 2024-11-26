@@ -24,8 +24,5 @@
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"],
-  "types": [
-    "jest",
-    "@testing-library/jest-dom"
-  ]
+  "types": [ "jest", "@testing-library/jest-dom", "workbox-core", "workbox-routing", "workbox-strategies", "workbox-precaching"]
 }
