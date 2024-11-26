@@ -48,7 +48,7 @@ registerRoute(
 );
 
 // Offline fallback
-self.addEventListener('install', event => {
+self.addEventListener('install', (event: ExtendableEvent) => {
   const offlineFallbackPage = new Request('/offline.html');
   event.waitUntil(
     fetch(offlineFallbackPage).then(response => {
@@ -58,3 +58,5 @@ self.addEventListener('install', event => {
     })
   );
 });
+
+export {}; // This helps with module augmentation
