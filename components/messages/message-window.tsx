@@ -16,7 +16,11 @@ export function MessageWindow({ messages, isLoading }: MessageWindowProps) {
         data={messages}
         itemContent={(index, message) => (
           <div className="p-2">
-            <MessageItem message={message} />
+            <MessageItem
+              message={message}
+              isUser={message.role === 'user'}
+              showTimestamp
+            />
           </div>
         )}
         followOutput="smooth"
