@@ -51,7 +51,9 @@ export function useStream() {
       timestamp: new Date().toISOString(),
     };
 
+    // Immediately update messages with user's message
     setMessages(prev => [...prev, userMessage]);
+    await saveMessages([...messages, userMessage]);
 
     try {
       abortController.current = new AbortController();
@@ -79,6 +81,9 @@ export function useStream() {
         timestamp: new Date().toISOString(),
       };
 
+      // Add empty assistant message immediately
+      setMessages(prev => [...prev, assistantMessage]);
+
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
@@ -87,6 +92,7 @@ export function useStream() {
         assistantMessage.content += text;
         updateMetrics(text);
 
+        // Update the last message (assistant's message)
         setMessages(prev => [...prev.slice(0, -1), { ...assistantMessage }]);
       }
 
