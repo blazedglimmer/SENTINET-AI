@@ -50,13 +50,20 @@ registerRoute(
 // Offline fallback
 self.addEventListener('install', (event: ExtendableEvent) => {
   const offlineFallbackPage = new Request('/offline.html');
-  event.waitUntil(
-    fetch(offlineFallbackPage).then(response => {
-      return caches.open('offline').then(cache => {
-        return cache.put(offlineFallbackPage, response);
-      });
-    })
-  );
+
+  // Using an async function to handle the install event
+  const installHandler = async () => {
+    try {
+      const response = await fetch(offlineFallbackPage);
+      const cache = await caches.open('offline');
+      await cache.put(offlineFallbackPage, response);
+    } catch (error) {
+      console.error('Failed to cache offline page:', error);
+    }
+  };
+
+  // Wait until the async function completes
+  event.waitUntil(installHandler());
 });
 
 export {}; // This helps with module augmentation
