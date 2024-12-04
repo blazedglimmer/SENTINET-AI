@@ -17,11 +17,9 @@ const geistMono = localFont({
   variable: '--font-geist-mono',
   weight: '100 900',
 });
-
 export const metadata: Metadata = {
-  title: 'AI Playground - Next Generation Model Interface',
-  description:
-    'Advanced AI model playground with real-time streaming and parameter controls',
+  title: 'AI Chat Interface',
+  description: 'Next-generation AI chat interface',
 };
 
 export default function RootLayout({
@@ -41,7 +39,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} font-sf antialiased`}
       >
         {children}
         <Analytics />
