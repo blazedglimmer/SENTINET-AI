@@ -3,6 +3,9 @@ import localFont from 'next/font/local';
 import './globals.css';
 import { initErrorMonitoring } from '@/utils/error-monitoring';
 import { Analytics } from '@vercel/analytics/next';
+import { ModeToggle } from '@/components/mode-toggle';
+import { ThemeProvider } from '@/components/theme-provider';
+import { TailwindIndicator } from '@/components/tailwind-indicator';
 
 // Initialize error monitoring
 initErrorMonitoring();
@@ -28,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link
@@ -41,7 +44,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-sf antialiased`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ModeToggle className="absolute top-2 right-2" />
+          {children}
+        </ThemeProvider>
+        <TailwindIndicator />
         <Analytics />
       </body>
     </html>
