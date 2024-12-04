@@ -32,7 +32,7 @@ export function Navigation() {
       <div className="md:mb-8">
         <Icons.logo className="h-8 w-8 dark:invert hidden sm:block" />
       </div>
-      <div className="flex w-full h-full items-center justify-center gap-6 md:flex-col md:space-y-6">
+      <div className="flex w-full h-full items-center justify-around sm:justify-center gap-6 md:flex-col md:space-y-6">
         {navItems.map(({ href, icon: Icon, label }) => {
           const isActive = pathname === href;
           return (
