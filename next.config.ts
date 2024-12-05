@@ -2,8 +2,13 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
-  webpack: config => {
-    config.resolve.alias['tailwindcss'] = require.resolve('tailwindcss');
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      };
+    }
     return config;
   },
 };

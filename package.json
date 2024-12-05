@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-     "build": "next build --debug",
+    "prebuild": "npm install tailwindcss postcss autoprefixer --legacy-peer-deps",
+    "build": "next build --debug",
     "start": "next start",
     "lint": "next lint"
   },
