@@ -54,13 +54,15 @@ export function Navigation() {
         <button className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
           <Icons.siAddIcon className="h-5 w-5 dark:invert" />
         </button>
-        <Avatar>
-          <AvatarImage
-            src="https://akshayshinde.com/Akshay1.JPEG"
-            alt="@folklore"
-          />
-          <AvatarFallback>AS</AvatarFallback>
-        </Avatar>
+        <Link href={'/profile'}>
+          <Avatar>
+            <AvatarImage
+              src="https://akshayshinde.com/Akshay1.JPEG"
+              alt="@folklore"
+            />
+            <AvatarFallback>AS</AvatarFallback>
+          </Avatar>
+        </Link>
       </div>
     </nav>
   );
