@@ -50,7 +50,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ModeToggle className="absolute top-2 right-2" />
+          <ModeToggle className="absolute top-2 right-2 rounded-full" />
           {children}
         </ThemeProvider>
         <TailwindIndicator />
