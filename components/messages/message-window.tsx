@@ -11,10 +11,10 @@ interface MessageWindowProps {
 
 export function MessageWindow({ messages, isLoading }: MessageWindowProps) {
   return (
-    <div className="h-[calc(100svh-17.5rem)] border border-gray-200 dark:border-gray-800 rounded-lg bg-background">
+    <div className="h-[calc(100svh-10rem)] w-full">
       <Virtuoso
         data={messages}
-        itemContent={(index, message) => (
+        itemContent={(_, message) => (
           <div className="p-2">
             <MessageItem
               message={message}
@@ -25,7 +25,8 @@ export function MessageWindow({ messages, isLoading }: MessageWindowProps) {
         )}
         followOutput="smooth"
         alignToBottom
-        className="h-full"
+        className="h-full w-full"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       />
       {isLoading && (
         <div className="p-4 border-t border-gray-200 dark:border-gray-800">
