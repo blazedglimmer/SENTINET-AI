@@ -5,5 +5,5 @@
         "use": "@vercel/node"
       }
     ],
-    "buildCommand": "npm ci && npm run build"
+    "buildCommand": "npm install --legacy-peer-deps && npm run build"
   }
